@@ -13,17 +13,51 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
-      // const button = <button>hello</button>;
-      // const paragraph = <p>paragraph of text</p>;
-      const div = (
-        <div>
-          <button>hello</button>
-          <p>paragraph of text {2 + 3}</p>
-        </div>
+      function ChatInput() {
+        return (
+          <>
+            <input placeholder="Send a message to Chatbot" />
+            <button>Send</button>
+          </>
+        );
+      }
+
+      function ChatMessage(props) {
+        // const message = props.message;
+        // const sender = props.sender;
+        // destructuring
+        const { message, sender } = props;
+
+        if (sender === "robot") {
+          return (
+            <div>
+              <img src="robot.png" width="50" alt="Robot Profile image" />
+              {message}
+            </div>
+          );
+        }
+
+        return (
+          <div>
+            {message}
+            <img src="User.png" width="50" alt="User Profile image" />
+          </div>
+        );
+      }
+      const app = (
+        <>
+          <ChatInput />
+          <ChatMessage message="hello chatbot" sender="user" />
+          <ChatMessage message="Hello! How can I help you?" sender="robot" />
+          <ChatMessage message="how is your day" sender="user" />
+          <ChatMessage
+            message="I'm doing great! How can I help you?"
+            sender="robot"
+          />
+        </>
       );
       const container = document.querySelector(".js-container");
-      // ReactDOM.createRoot(container).render(paragraph);
-      ReactDOM.createRoot(container).render(div);
+      ReactDOM.createRoot(container).render(app);
     </script>
   </body>
 </html>
