@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+    <img src="../tennis-balls.png" alt="" />
+
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function ProductDetails({ name, price, discountPrice, imgSrc }) {
+        // const name = x.name;
+        // const price = x.price;
+        // const { name, price } = x;
+        return (
+          <>
+            <img src={imgSrc} width="150" />
+            <p>{name}</p>
+            {discountPrice ? (
+              <del>
+                <p>Price: ${price}</p>
+              </del>
+            ) : (
+              <p>Price: ${price}</p>
+            )}
+
+            {discountPrice && <p>Discount price: ${discountPrice}</p>}
+            <button>Add to Cart</button>
+          </>
+        );
+      }
+      function App() {
+        return (
+          <>
+            <ProductDetails
+              name="Cotton Socks"
+              price="10.90"
+              discountPrice="5.45"
+              imgSrc="cotton-socks.png"
+            />
+
+            <ProductDetails
+              name="Tennis balls"
+              price="6.00"
+              imgSrc="tennis-balls.png"
+            />
+
+            <ProductDetails
+              name="Plain T-Shirt"
+              price="7.99"
+              imgSrc="plain-t-shirt.png"
+            />
+          </>
+        );
+      }
+
+      ReactDOM.createRoot(document.querySelector(".js-container")).render(
+        <App />
+      );
+    </script>
+  </body>
+</html>
