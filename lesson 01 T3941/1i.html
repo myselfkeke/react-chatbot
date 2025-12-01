@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      const currentTime = dayjs().format("HH mm ss");
+      console.log(currentTime);
+
+      const div = <p>Current Time: {currentTime}</p>;
+      const container = document.querySelector(".js-container");
+      // ReactDOM.createRoot(container).render(div);
+
+      // solution for ij
+      const root = ReactDOM.createRoot(container);
+      root.render(div);
+    </script>
+  </body>
+</html>
