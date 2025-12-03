@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function App() {
+        const [typing, setTyping] = React.useState("");
+
+        function trackChanges(e) {
+          setTyping(e.target.value);
+        }
+        function reset() {
+          setTyping("");
+        }
+        function example() {
+          const text = "John";
+          let index = 0;
+
+          setTyping("");
+
+          const interval = setInterval(() => {
+            setTyping((prev) => {
+              const next = prev + text[index];
+              index++;
+              if (index === text.length) clearInterval(interval);
+              return next;
+            });
+          }, 150);
+        }
+        return (
+          <>
+            <input
+              onChange={trackChanges}
+              type="text"
+              placeholder="Write something..."
+              value={typing}
+            />
+            <button onClick={reset}>Reset</button>
+            <button onClick={example}>Example</button>
+            <p>Hello {typing}</p>
+          </>
+        );
+      }
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

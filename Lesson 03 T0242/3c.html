@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function App() {
+        // Handling Grammer;
+
+        const [count, setCount] = React.useState(0);
+        const [t, setT] = React.useState("Times");
+
+        function handleClick() {
+          const updatedCount = count + 1;
+          setCount(updatedCount);
+
+          updatedCount === 1 ? setT("Time") : setT("Times");
+        }
+
+        return (
+          <>
+            <button onClick={handleClick}>
+              Clicked {count} {t}
+            </button>
+          </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

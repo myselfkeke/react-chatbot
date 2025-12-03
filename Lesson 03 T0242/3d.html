@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function Counter() {
+        // Two Counter;
+
+        const [count, setCount] = React.useState(0);
+        const [t, setT] = React.useState("Times");
+
+        function increaseCount() {
+          const updatedCount = count + 1;
+          setCount(updatedCount);
+
+          updatedCount === 1 ? setT("Time") : setT("Times");
+        }
+
+        return (
+          <>
+            <button onClick={increaseCount}>
+              Clicked {count} {t}
+            </button>
+          </>
+        );
+      }
+
+      function App() {
+        return (
+          <>
+            <Counter />
+            <Counter />
+          </>
+        );
+      }
+
+      const container = document.querySelector(".js-container");
+      ReactDOM.createRoot(container).render(<App />);
+      /*
+      
+      Great question — and yes, **both interfaces *look* similar, but behave completely differently behind the scenes.**
+Let me break this down in a crystal-clear, React-developer way.
+
+---
+
+# ✅ **Why the FIRST code updates BOTH buttons at the same time**
+
+### FIRST code:
+
+```jsx
+function App() {
+  const [count, setCount] = React.useState(0);
+
+  return (
+    <>
+      <button onClick={handleClick}>
+        Clicked {count} {count === 1 ? "Time" : "Times"}
+      </button>
+
+      <button onClick={handleClick}>
+        Clicked {count} {count === 1 ? "Time" : "Times"}
+      </button>
+    </>
+  );
+}
+```
+
+### 📌 Key Point:
+
+All the UI (both buttons) is **inside ONE component** → `<App />`.
+
+So:
+
+* There is **one count state**
+* There is **one setCount function**
+* Clicking *any* button updates **the same shared state**
+* React re-renders `<App />` and updates **both buttons together**
+
+---
+
+# ⭐ Behind the Scene (First Code)
+
+React does this:
+
+```
+App component:
+  State #1 → count = 0
+```
+
+Both buttons read from the same memory location.
+
+So when you do:
+
+```
+setCount(1)
+```
+
+React rerenders `<App />`:
+
+```
+count = 1
+```
+
+➡ Both buttons display the updated value.
+➡ They are “twins” tied to the same state bucket.
+
+---
+
+# 💡 Mental Model
+
+Think of `<App />` as **one counter with two screens showing its value**.
+Pressing any button updates *both screens*, because there's only *one* underlying counter.
+
+---
+
+# ✅ **Why the SECOND code works independently**
+
+### SECOND code:
+
+```jsx
+function App() {
+  return (
+    <>
+      <Counter />
+      <Counter />
+    </>
+  );
+}
+```
+
+Each `<Counter />` is **its own component instance**.
+
+Inside `<Counter />`:
+
+```jsx
+const [count, setCount] = useState(0);
+```
+
+Each copy of `<Counter />` gets **its own state bucket**:
+
+### Behind the scene in React:
+
+```
+Counter instance #1:
+  State #1 → count = 0
+  State #2 → t = "Times"
+
+Counter instance #2:
+  State #1 → count = 0
+  State #2 → t = "Times"
+```
+
+They are **completely independent**.
+
+So:
+
+* Clicking the first counter updates **only Counter #1**
+* Clicking the second counter updates **only Counter #2**
+* React re-renders only the component where the state changed
+
+---
+
+# ⭐ Behind the Scene (Second Code)
+
+React internally does:
+
+```
+<App />
+  ↳ <Counter /> instance A
+       ↳ own useState memory
+  ↳ <Counter /> instance B
+       ↳ separate useState memory
+```
+
+Two counters = two separate memory buckets.
+
+Nothing is shared.
+
+---
+
+# 💡 Mental Model
+
+Think of having **two separate calculators**, each with its own “AC” and “+1” buttons.
+Pressing a button on Calculator 1 does NOT affect Calculator 2.
+
+---
+
+# 🧠 Summary — Why they behave differently
+
+| Feature                            | First Code              | Second Code                                     |
+| ---------------------------------- | ----------------------- | ----------------------------------------------- |
+| Number of components               | ONE (`App`)             | TWO (`Counter` + `Counter`)                     |
+| Number of state buckets            | ONE                     | TWO (one per Counter)                           |
+| Does clicking affect both buttons? | YES, both update        | NO, each updates independently                  |
+| Why?                               | Buttons read same state | Buttons are inside separate component instances |
+
+---
+
+# 🎯 Final Takeaway
+
+### ✔ In the first example:
+
+Both buttons “listen” to **the same state**, so both update together.
+
+### ✔ In the second example:
+
+Each `<Counter />` has **its own private state**, so they update independently.
+
+This is one of the most important React concepts:
+👉 **Component instances get their own independent state memory.**
+
+---
+
+If you want, I can also show you a visual diagram of the render tree and hook memory layout — it will make everything crystal clear.
+
+      */
+    </script>
+  </body>
+</html>
