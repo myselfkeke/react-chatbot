@@ -19,7 +19,7 @@
         function saveInputText(e) {
           setInputText(e.target.value);
         }
-        function sendMessage() {
+        async function sendMessage() {
           const newChatMessages = [
             ...chatMessages,
             {
@@ -31,8 +31,7 @@
 
           setChatMessages(newChatMessages);
 
-          const response = Chatbot.getResponse(inputText);
-          console.log(response);
+          const response = await Chatbot.getResponseAsync(inputText);
           setChatMessages([
             ...newChatMessages,
             {
@@ -44,6 +43,13 @@
 
           setInputText("");
         }
+        function handleKeyDown(e) {
+          if (e.key === "Enter") {
+            sendMessage();
+          } else if (e.key === "Escape") {
+            setInputText("");
+          }
+        }
 
         return (
           <>
@@ -51,6 +57,7 @@
               placeholder="Send a message to Chatbot"
               size="30"
               onChange={saveInputText}
+              onKeyDown={handleKeyDown}
               value={inputText}
             />
             <button onClick={sendMessage}>Send</button>
