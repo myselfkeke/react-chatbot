@@ -96,6 +96,17 @@
           ];
 
           setChatMessages(newChatMessages);
+          setChatMessages([
+            ...newChatMessages,
+            // This creates a temporary Loading... message.
+            // Because we don't save this message in newChatMessages,
+            // it will be remove later, when we add the response.
+            {
+              message: "Loading...",
+              sender: "robot",
+              id: crypto.randomUUID(),
+            },
+          ]);
 
           const response = await Chatbot.getResponseAsync(inputText);
           setChatMessages([
@@ -170,8 +181,23 @@
 
           console.log(containerElem);
 
+          // if (containerElem) {
+          //   containerElem.scrollTop = containerElem.scrollHeight;
+          // }
+          //for smooth scrolling
+
+          /*
+            ⭐ Which one should you use?
+            Goal	Use
+            Scroll full container to bottom smoothly	scrollTo({ behavior: "smooth" })
+            Scroll directly to a specific element	scrollIntoView({ behavior: "smooth" })
+          */
+
           if (containerElem) {
-            containerElem.scrollTop = containerElem.scrollHeight;
+            containerElem.scrollTo({
+              top: containerElem.scrollHeight,
+              behavior: "smooth",
+            });
           }
         }, [chatMessages]);
         return (
