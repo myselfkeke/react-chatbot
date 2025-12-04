@@ -148,7 +148,7 @@
                 alt="Robot Profile image"
               />
             )}
-            <div class="chat-message-text">{message}</div>
+            <div className="chat-message-text">{message}</div>
             {sender === "user" && (
               <img
                 src="user.png"
@@ -160,8 +160,22 @@
         );
       }
       function ChatMessages({ chatMessages }) {
+        const chatMessagesRef = React.useRef(null);
+
+        React.useEffect(() => {
+          // console.log("helloooo");
+          console.log(chatMessagesRef);
+
+          const containerElem = chatMessagesRef.current;
+
+          console.log(containerElem);
+
+          if (containerElem) {
+            containerElem.scrollTop = containerElem.scrollHeight;
+          }
+        }, [chatMessages]);
         return (
-          <div class="chat-messages-container">
+          <div className="chat-messages-container" ref={chatMessagesRef}>
             {chatMessages.map((chatMessage) => {
               return (
                 <ChatMessage
@@ -199,7 +213,7 @@
         ]);
 
         return (
-          <div class="app-container">
+          <div className="app-container">
             <ChatMessages chatMessages={chatMessages} />
             <ChatInput
               chatMessages={chatMessages}
