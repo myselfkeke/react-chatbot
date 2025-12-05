@@ -66,6 +66,10 @@
         overflow: scroll;
         scrollbar-width: none;
       }
+      .welcome-msg {
+        color: rgb(120, 120, 120);
+        text-align: center;
+      }
     </style>
   </head>
   <body>
@@ -174,24 +178,7 @@
         const chatMessagesRef = React.useRef(null);
 
         React.useEffect(() => {
-          // console.log("helloooo");
-          console.log(chatMessagesRef);
-
           const containerElem = chatMessagesRef.current;
-
-          console.log(containerElem);
-
-          // if (containerElem) {
-          //   containerElem.scrollTop = containerElem.scrollHeight;
-          // }
-          //for smooth scrolling
-
-          /*
-            ⭐ Which one should you use?
-            Goal	Use
-            Scroll full container to bottom smoothly	scrollTo({ behavior: "smooth" })
-            Scroll directly to a specific element	scrollIntoView({ behavior: "smooth" })
-          */
 
           if (containerElem) {
             containerElem.scrollTo({
@@ -215,31 +202,14 @@
         );
       }
       function App() {
-        const [chatMessages, setChatMessages] = React.useState([
-          {
-            message: "hello chatbot",
-            sender: "user",
-            id: "id1",
-          },
-          {
-            message: "Hello! How can I help you?",
-            sender: "robot",
-            id: "id2",
-          },
-          {
-            message: "how is your day",
-            sender: "user",
-            id: "id3",
-          },
-          {
-            message: "I'm doing great! How can I help you?",
-            sender: "robot",
-            id: "id4",
-          },
-        ]);
+        const [chatMessages, setChatMessages] = React.useState([]);
 
         return (
           <div className="app-container">
+            <p className="welcome-msg">
+              {chatMessages.length === 0 &&
+                " Welcome to the chatbot project! Send a message using the textbox below."}
+            </p>
             <ChatMessages chatMessages={chatMessages} />
             <ChatInput
               chatMessages={chatMessages}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function TitleUpdater() {
+        const [count, setCount] = React.useState(0);
+
+        // 1. The effect function runs AFTER the component renders.
+        React.useEffect(() => {
+          // This is the side effect: interacting with the browser API (DOM)
+          document.title = `You ${count} clicked  times`;
+
+          // 2. The Dependency Array: [count]
+          // The effect runs whenever 'count' changes.
+        }, [count]);
+
+        return (
+          <div>
+            <p>Count: {count}</p>
+            <button onClick={() => setCount(count + 1)}>Click me</button>
+          </div>
+        );
+      }
+      ReactDOM.createRoot(document.querySelector(".js-container")).render(
+        <TitleUpdater />
+      );
+    </script>
+  </body>
+</html>

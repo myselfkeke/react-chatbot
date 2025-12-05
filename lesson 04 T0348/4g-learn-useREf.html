@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+      function RefExample() {
+        // 1. Create a ref to hold a value (e.g., a counter that doesn't trigger UI updates)
+        const counterRef = React.useRef(0);
+
+        // 2. Create a ref to reference a DOM element
+        const inputRef = React.useRef(null);
+
+        const handleClick = () => {
+          // Increment the value. The UI DOES NOT update.
+          counterRef.current = counterRef.current + 1;
+          console.log(`Ref Counter: ${counterRef.current}`);
+        };
+
+        const handleFocus = () => {
+          // Access the actual input DOM element and call its .focus() method
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        };
+
+        return (
+          <div>
+            <input type="text" ref={inputRef} placeholder="I can be focused" />
+            <button onClick={handleFocus}>Focus Input</button>
+            <button onClick={handleClick}>Increment Ref (No Re-render)</button>
+          </div>
+        );
+      }
+      ReactDOM.createRoot(document.querySelector(".js-container")).render(
+        <RefExample />
+      );
+    </script>
+  </body>
+</html>
